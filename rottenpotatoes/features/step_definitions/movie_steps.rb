@@ -1,9 +1,12 @@
 # Add a declarative step here for populating the DB with movies.
-
+value = 0
 Given /the following movies exist/ do |movies_table|
+  value = 0
   movies_table.hashes.each do |movie|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
+    Movie.create(movie)
+      value += 1
   end
   fail "Unimplemented"
 end
@@ -18,6 +21,8 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
+  match = /#{e1}.*#{e2}/m =~ page.body
+  assert !match.nil?
   fail "Unimplemented"
 end
 
